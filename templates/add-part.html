@@ -1,0 +1,134 @@
+{% extends 'base.html' %}"
+
+{% block content %}
+<form class="was-validated" method="post">
+  <div class="row align-items-start">
+
+    <div class="col-md-3">
+      <div class="mb-3">
+        <label class="form-label">Nazwa</label>
+        <input type="text" name="nazwa" class="form-control" required>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Typ</label>
+        <input type="text" name="typ" class="form-control" required>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Lokalizacja</label>
+        <input type="text" name="lokalizacja" class="form-control" required>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Maszyna</label>
+        <input type="text" name="maszyna" class="form-control" required>
+      </div>
+    </div>
+
+    <div class="col-md-1">
+      <div class="mb-3">
+        <label class="form-label">Ilosc zamówionych</label>
+        <input type="text" name="ilosc_zam" class="form-control" required>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Nowe</label>
+        <input type="text" name="nowe" class="form-control" required>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Zregenerowane</label>
+        <input type="text" name="regen" class="form-control" required>
+      </div>
+
+      <div class="col">
+        <br>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" name="krytyczne" value="1" checked>
+          <label class="form-check-label"> Krytyczne </label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" name="rp" value="1" checked>
+          <label class="form-check-label"> Podlega regeneracji </label>
+        </div>
+      </div>
+
+    </div>
+    <div class="col-md-1">
+
+      <div class="mb-3">
+        <label class="form-label">Stan minimalny</label>
+        <input type="text" name="stan_min" class="form-control" required>
+      </div>
+
+
+      <div class="mb-3">
+        <label class="form-label">Do regeneracji</label>
+        <input type="text" name="do_reg" class="form-control" required>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Złomowane</label>
+        <input type="text" name="zlom" class="form-control" required>
+      </div>
+
+    </div>
+    <div class="row align-items-start">
+      <div class="col-md-6">
+        <div class="mb-3">
+          <label class="form-label">Opis</label>
+          <textarea class="form-control" name="opis" id="zgloszenie" rows="3"
+            maxlength="200"></textarea>
+          <div id="count_zgloszenie" class="form-text"></div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <label class="form-label">Sklep</label>
+            <input type="text" name="shop" class="form-control" placeholder="https:// ...">
+          </div>
+
+          <div class="col">
+            <label class="form-label">cena</label>
+            <div class="input-group mb-3">
+              <span class="input-group-text">PLN</span>
+              <input type="text" name="cena" class="form-control" required>
+            </div>
+          </div>
+        </div>
+
+        {# <div class="mb-3">
+          <label class="form-label">Zdjęcia częsci</label>
+          <input class="form-control" type="file" name="formFileMultiple" multiple>
+        </div> # TODO Create code for uplaud file #}
+        <br>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+          <button type="submit" class="btn btn-primary" name="update_id" >Zapisz</button>
+          <a href="/management-warehouse" type="submit" class="btn btn-primary" formnovalidate>Ukryj</a>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+{% endblock %}
+
+{% block js %}
+var text_max1 = 200;
+$('#count_opis').html('0 / ' + text_max1);
+var text_max2 = 200;
+$('#count_zgloszenie').html('0 / ' + text_max2);
+var text_max3 = 200;
+$('#count_przyczyna').html('0 / ' + text_max3);
+
+$('#opis').keyup(function () {
+var text_length = $('#opis').val().length;
+var text_remaining = text_max1 - text_length;
+
+$('#count_opis').html(text_length + ' / ' + text_max1);
+});
+
+
+{% endblock %}

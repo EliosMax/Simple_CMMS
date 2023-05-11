@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+{% block content %}
+
+{# <div class="container"> #}
+  <div class="row justify-content-center">
+      <form class="form-inline">
+        <div class="input-group mb-3">
+        
+          <input type="text" class="form-control" id="search_id" placeholder="Wyszukaj po id...">
+          <input type="text" class="form-control" id="search" placeholder="Wyszukaj...">
+          <div class="input-group-append">
+          
+            <button type="button" class="btn btn-primary" id="searchButton">Szukaj</button>
+            <span class="d-inline-block" tabindex="0" data-bs-toggle="tooltip" data-bs-title="Wygeneruj strone do druku.">
+            <a href="/warehouse-inventory" type="submit" class="btn btn-secondary" target="_blank">Inwentaryzacja</a>
+            </span>
+            {%if current_user.rank >= 2 %}
+              <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#add-part">Dodaj część</button>
+            {%endif%}
+            <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#stockout-show">Braki magazynowe</button> 
+
+          </div>
+        </div>
+      </form>
+    </div>
+{# </div> #}
+
+{# <----- ____________________Modal____________________ #}
+{% include 'add-part-show.html' %} 
+
+{# <----- ____________________Modal____________________ #}
+{% include 'stockout-show.html' %} 
+      
+<div class="col-auto me-auto">
+<div class="row align-items-center">
+<table class="table table-bordered table-auto">
+  <thead class="text-light bg-dark">
+    <tr class="text-center">
+      <td>ID</td>
+      <td>Nazwa</td>
+      <td>Typ</td>
+      <td>Stan min</td>
+      <td>Ilość zam</td>
+      <td>Nowe</td>
+      <td>Do regeneracji</td>
+      <td>Zregenerowane</td>
+      <td>Złom</td>
+      <td>RP</td>
+      <td>Maszyna</td>
+      <td>Lokalizacja</td>
+      <td>Krytyczna</td>
+      <td>Cena</td>
+      {%if current_user.rank >= 2 %} <td>Akcja</td> {%endif%}
+    </tr>
+  </thead>
+  <tbody id="myTable">
+
+    {% for row in rows %}
+    <tr {% if row['nowe'] == 0 %} class="table-danger" {% elif row['nowe'] == row['stan_min'] %}class="table-info" {% elif row['nowe'] < row['stan_min'] %}class="table-warning"  {%endif%}>
+      <th scope="row">{{row['id']}}</th>
+      <td>{{row['nazwa']}}</td>
+      <td>{{row['typ']}}</td>
+      <td>{{row['stan_min']}}</td>
+      <td>{{row['ilosc_zam']}}</td>
+      <td>{{row['nowe']}}</td>
+      <td>{{row['do_reg']}}</td>
+      <td>{{row['regen']}}</td>
+      <td>{{row['zlom']}}</td>
+      <td>{{row['rp']}}</td>
+      <td>{{row['maszyna']}}</td>
+      <td>{{row['lokalizacja']}}</td>
+      <td>{{row['krytyczne']}}</td>
+      <td>{{row['cena']}}</td>
+        {%if current_user.rank >= 2 %}
+        <td class="text-center">
+          {# <----- ____________________Modal____________________ #}
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#{{row['id']}}">Edytuj</button>
+          {% include 'part-show.html' %} 
+            {# <----- ____________________Modal____________________ #}
+        </td>
+        {%endif%}
+      </tr>
+      {% endfor %}
+
+  </tbody>
+</table>
+</div>
+</div>
+
+{# <----- ____________________pagination.html____________________ #}
+{% include 'pagination.html' %} 
+
+{% endblock %}
+
+{% block js %}
+ 
+    $(function () {
+      $('[data-bs-toggle="tooltip"]').tooltip()
+    })
+
+		{# $(document).ready(function(){
+			$("#searchButton").click(function(){
+				var search_id = $("#search_id").val();
+        var search = $("#search").val();
+        if (search_id) {
+            window.location.href = "?search_id=" + search_id;
+        } else {
+            window.location.href = "?search=" + search;
+        }
+			});
+		}); #}
+
+    $(document).ready(function(){
+  $("#searchButton").click(function(){
+    var search_id = $("#search_id").val();
+    var search = $("#search").val();
+      if (search_id) {
+            window.location.href = "?search_id=" + search_id;
+        } else {
+            window.location.href = "?search=" + search;
+        }
+  });
+
+
+  $("#search_id").keypress(function(event){
+    if (event.which == 13){ // Enter key code is 13
+      var search_id = $("#search_id").val();
+      var search = $("#search").val();
+      window.location.href = "?search_id=" + search_id;
+    }
+  });
+
+
+  $("#search").keypress(function(event){
+    if (event.which == 13){ // Enter key code is 13
+      var search = $("#search").val();
+      var search = $("#search").val();
+      window.location.href = "?search=" + search;
+    }
+  });
+
+});
+
+
+
+{% endblock %}

@@ -1,0 +1,147 @@
+{# ____________________Modal____________________ #}
+
+<form method="post">
+{# <!-- Modal --> #}
+<div class="modal fade" id="add-part" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-xl">   
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5">Dodaj części</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        {# ____________________management-management-warehouse____________________ #}
+
+<form method="post">
+  <div class="row d-flex justify-content-center was-validated">
+
+    <div class="col-auto">
+      <div class="mb-3">
+        <label class="form-label">Nazwa</label>
+        <input type="text" name="nazwa" class="form-control" required>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Typ</label>
+        <input type="text" name="typ" class="form-control" required>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Lokalizacja</label>
+        <input type="text" name="lokalizacja" class="form-control" required>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Maszyna</label>
+        <input type="text" name="maszyna" class="form-control" required>
+      </div>
+    </div>
+
+    <div class="col-auto">
+      <div class="mb-3">
+        <label class="form-label">Ilosc zamówionych</label>
+        <input type="text" name="ilosc_zam" class="form-control" required>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Nowe</label>
+        <input type="text" name="nowe" class="form-control" required>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Zregenerowane</label>
+        <input type="text" name="regen" class="form-control" required>
+      </div>
+
+      <div class="col-auto">
+        <br>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" name="krytyczne" value="1" checked>
+          <label class="form-check-label"> Krytyczne </label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" name="rp" value="1" checked>
+          <label class="form-check-label"> Podlega regeneracji </label>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="col-auto">
+
+      <div class="mb-3">
+        <label class="form-label">Stan minimalny</label>
+        <input type="text" name="stan_min" class="form-control" required>
+      </div>
+
+
+      <div class="mb-3">
+        <label class="form-label">Do regeneracji</label>
+        <input type="text" name="do_reg" class="form-control" required>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Złomowane</label>
+        <input type="text" name="zlom" class="form-control" required>
+      </div>
+
+    </div>
+  </div>
+
+    <div class="row d-flex justify-content-center">
+      <div class="col-auto">
+        <div class="mb-3">
+          <label class="form-label">Opis</label>
+          <textarea class="form-control" name="opis_show" id="opis_show" rows="3"
+            maxlength="200"></textarea>
+          <div id="count_opis_show" class="form-text"></div>
+        </div>
+
+        <div class="row">
+          <div class="col-auto">
+            <label class="form-label">Sklep</label>
+            <input type="text" name="shop" class="form-control" placeholder="https:// ...">
+          </div>
+
+          <div class="col-auto was-validated">
+            <label class="form-label">cena</label>
+            <div class="input-group mb-3">
+              <span class="input-group-text">PLN</span>
+              <input type="text" name="cena" class="form-control" required>
+            </div>
+          </div>
+        </div>
+        {# <div class="mb-3">
+          <label class="form-label">Zdjęcia częsci</label>
+          <input class="form-control" type="file" name="formFileMultiple" multiple>
+        </div> # TODO Create code for uplaud file #}
+        <br>
+    </div>
+  </div>
+
+     {# _____________________End management-warehouse____________________ #}
+       </div>
+      <div class="modal-footer">
+          {%if current_user.rank >= 3 %}
+          <button type="submit" class="btn btn-primary" name="action" value="add-part">Dodaj</button>
+          {%endif%}
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
+        {# <button type="button" class="btn btn-primary">Zapisz</button> #}
+  </form>
+      </div>
+    </div>
+  </div>
+</div>
+{# _____________________End Modal____________________ #}
+
+<script>
+var text_max1 = 200;
+$('#count_opis_show').html('0 / ' + text_max1);
+
+$('#opis_show').keyup(function () {
+var text_length = $('#opis_show').val().length;
+var text_remaining = text_max1 - text_length;
+
+$('#count_opis_show').html(text_length + ' / ' + text_max1);
+});
+</script>

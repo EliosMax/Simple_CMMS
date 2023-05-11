@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% block content %}
+<form method="post">
+   <div class="row align-items-start was-validated">
+      <div class="col-md-3">
+         <label for="disabledTextInput" class="form-label">Linia</label>
+         <select class="form-select" name="linia" required>
+            <option value="">Wybierz ...</option>
+            <option value="Sx">Linia_1</option>
+            <option value="NX">Szlifierka_1</option>
+            <option value="PDe">Klejarka_2</option>
+            <option value="VW">Assembly_Line 3</option>
+            <option value="Injecton_1">Injecton_1</option>
+         </select>
+         <label for="disabledTextInput" class="form-label">Maszyna</label>
+         <select class="form-select" name="maszyna" required>
+            <option value="">Wybierz ...</option>
+            <option value="Stoły motażowe">Stoły motażowe</option>
+            <option value="Hot-stag 1">Maszyna_1</option>
+            <option value="Hot-stag 2">Klejarka_5</option>
+            <option value="Swich-Tester">Krawędziarka</option>
+         </select>
+      </div>
+      <div class="col-md-3">
+
+         <label for="disabledTextInput" class="form-label">Typ zgłoszenia</label>
+         <select class="form-select" name="typ" required>
+            <option value="">Wybierz ...</option>
+            <option value="1">Awaria</option>
+            <option value="2">Usterka</option>
+            <option value="3">Usprawnienie</option>
+            <option value="4">BHP</option>
+         </select>
+
+         <label for="disabledTextInput" class="form-label">Rodzaj zgłoszeznia</label>
+         <select class="form-select" name="rodzaj" required>
+            <option value="">Wybierz ...</option>
+            <option value="1">Mechaniczna</option>
+            <option value="2">Elektryczna</option>
+            <option value="3">IT</option>
+         </select>
+      </div>
+   </div>
+   <div class="col-md-6">
+      <div class="mb-3">
+         <label class="form-label">Opis problemu</label>
+         <textarea class="form-control" name="zgloszenie" id="zgloszenie" rows="3" maxlength="200" required></textarea>
+         <div id="count_zgloszenie" class="form-text" align="right"></div>
+      {# 
+      <div class="mb-3">
+        <label for="formFileMultiple" class="form-label">Zdjęcia z awarii</label>
+        <input class="form-control" type="file" name="formFileMultiple" multiple>
+      </div>  # TODO Create code for uplaud file 
+      #}
+      </div>
+      <button type="submit" class="btn btn-primary">Zgłoś awarie</button>
+   </div>
+</form>
+
+{% endblock %}
+
+{% block js %}
+
+var text_max4 = 200;
+$('#count_zgloszenie').html('0 / ' + text_max4 );
+
+$('#zgloszenie').keyup(function() {
+var text_length = $('#zgloszenie').val().length;
+var text_remaining = text_max4 - text_length;
+
+$('#count_zgloszenie').html(text_length + ' / ' + text_max4);
+});
+
+{% endblock %}

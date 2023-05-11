@@ -1,0 +1,68 @@
+{# ____________________Modal____________________ #}
+
+{# <!-- Button trigger modal --> #}
+{# <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#pending_failures">
+  Launch demo modal
+</button> #}
+{# <!-- Modal --> #}
+<div class="modal fade" id="pending_failures" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-xll">   
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5">Oczekujące awarie</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        {# ____________________management-warehouse____________________ #}
+
+<div class="row align-items-center">
+<table class="table table-bordered table-auto">
+  <thead class="text-light bg-dark">
+     <tr class="text-center">
+      <td>ID</td>
+       <td>Linia</td>
+       <td>Maszyna</td>
+       <td>Odpowiedzialny</td>
+       <td>Zgłoszenie</td>
+       <td>Zgłaszający</td>
+       <td>Czas Start</td>
+       <td class="col-3 col-sm-1">Akcja</td>
+     </tr>
+   </thead>
+   <tbody id="myTable">
+    {# Użyto całęj bay danych rows_all #}
+    {% for row in rows_all %}
+      {% if not row['czas_stop'] %}
+        <tr {{color_info[row['typ']]}}>
+          <th scope="row">{{row['id']}}</th>
+          <th scope="row">{{row['linia']}}</th>
+          <td>{{row['maszyna']}}</td>
+          <td>{{row['mechanik']}}</td>
+          <td>{{row['zgloszenie']}}</td>
+          <td>{{row['requestor']}}</td>
+          <td>{{row['czas_start']}}</td>
+          <td class="text-center">
+            {% if row['czas_stop'] %}
+            
+            <a href="?id={{row['id']}}" type="submit" class="btn btn-primary">Edytuj</a>
+            {% else %}
+            <a href="?id={{row['id']}}" type="submit" class="btn btn-danger ">Uzupełnij</a>
+            {% endif%}
+          </td>
+          </tr>
+        {% endif %}
+      {% endfor %}
+   </tbody>
+ </table>
+</div>
+
+     {# _____________________End Warehouse____________________ #}
+       </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
+        {# <button type="button" class="btn btn-primary">Zapisz</button> #}
+      </div>
+    </div>
+  </div>
+</div>
+{# _____________________End Modal____________________ #}

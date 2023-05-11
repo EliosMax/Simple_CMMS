@@ -1,0 +1,106 @@
+{# ____________________Modal____________________ #}
+
+{# <!-- Modal --> #}
+<div class="modal fade" id="stockout-show" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-xll">  
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5">Wykaz części</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        {# ____________________management-warehouse____________________ #}
+    
+<div class="col-auto me-auto">
+<div class="row align-items-center">
+<table class="table table-bordered table-auto">
+  <thead class="text-light bg-dark">
+    <tr class="text-center">
+      <td >ID</td>
+      <td>Nazwa</td>
+      <td>Typ</td>
+      <td>Stan min</td>
+      <td>Ilość zam</td>
+      <td>Nowe</td>
+      <td>Do regeneracji</td>
+      <td>Zregenerowane</td>
+      <td>Złom</td>
+      <td>RP</td>
+      <td>Maszyna</td>
+      <td>Lokalizacja</td>
+      <td>Krytyczna</td>
+      <td>Cena</td>
+      {%if current_user.rank >= 2 %} <td style="width: 180px; white-space: nowrap;">Akcja</td> {%endif%}
+    </tr>
+  </thead>
+  <tbody id="myTable">
+    {# Użyto całęj bay danych rows_all #}
+    {% for row in rows_all %}
+    {% if row['nowe'] < row['stan_min'] %} 
+    <tr {% if row['nowe'] == 0 %} class="table-danger" {% elif row['nowe'] == row['stan_min'] %}class="table-info" {% elif row['nowe'] < row['stan_min'] %}class="table-warning"  {%endif%}>
+      <th scope="row">{{row['id']}}</th>
+      <td>{{row['nazwa']}}</td>
+      <td>{{row['typ']}}</td>
+      <td>{{row['stan_min']}}</td>
+      <td>{{row['ilosc_zam']}}</td>
+      <td>{{row['nowe']}}</td>
+      <td>{{row['do_reg']}}</td>
+      <td>{{row['regen']}}</td>
+      <td>{{row['zlom']}}</td>
+      <td>{{row['rp']}}</td>
+      <td>{{row['maszyna']}}</td>
+      <td>{{row['lokalizacja']}}</td>
+      <td>{{row['krytyczne']}}</td>
+      <td>{{row['cena']}}</td>
+      {%if current_user.rank >= 2 %}
+      <td class="text-center">
+      
+      {# <----- ____________________Modal____________________ #}
+      <button type="button" class="btn btn-primary" name="#{{row['id']}}" value="#{{row['id']}}">Zamów</button>
+      {# <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#{{row['id']}}">Edytuj</button> #}
+      <a href="?id={{row['id']}}" type="submit" class="btn btn-primary">Edytuj</a>
+        {# <----- ____________________Modal____________________ #}
+
+      </td>
+      {%endif%}
+      </tr>
+      {% endif %}
+      {% endfor %}
+
+  </tbody>
+</table>
+</div>
+</div>
+        {# _____________________End management-warehouse____________________ #}
+       </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
+        {# <button type="button" class="btn btn-primary">Zapisz</button> #}
+      </div>
+    </div>
+  </div>
+</div>
+{# _____________________End Modal____________________ #}
+
+
+
+{#
+// Pobranie przycisków
+var buttons = document.querySelectorAll('#warehouse_table .btn');
+// Przypisanie akcji do przycisków
+buttons.forEach(function(btn) {
+btn.addEventListener('click', function() {
+
+// Pobranie wartości przycisku
+var value = this.getAttribute('data-value');
+
+// Dodanie wartości do listy
+var valuesList = document.querySelector('.list-group');
+var listItem = document.createElement('li');
+listItem.classList.add('list-group-item'); // dodajemy klasę "list-group-item"
+var itemText = document.createTextNode(value);
+listItem.appendChild(itemText);
+valuesList.appendChild(listItem);
+});
+});
+#}

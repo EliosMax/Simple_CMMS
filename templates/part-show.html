@@ -1,0 +1,157 @@
+{# ____________________Modal____________________ #}
+<form method="post">
+{# <!-- Modal --> #}
+<div class="modal fade" id="{{row['id']}}" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-xl">   
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="input-group">
+          <span class="input-group-text" id="basic-addon1">ID</span>
+          <input type="text" class="form-control" name="update_id" value="{{ row['id'] }}" readonly>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        {# ____________________management-warehouse____________________ #}
+
+  <div class="row d-flex justify-content-center was-validated">
+
+    <div class="col-auto">
+      <div class="mb-3">
+        <label class="form-label">Nazwa</label>
+        <input type="text" name="nazwa" class="form-control" value="{{ row['nazwa'] }}" required>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Typ</label>
+        <input type="text" name="typ" class="form-control" value="{{ row['typ'] }}" required>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Lokalizacja</label>
+        <input type="text" name="lokalizacja" class="form-control" value="{{ row['lokalizacja'] }}" required>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Maszyna</label>
+        <input type="text" name="maszyna" class="form-control" value="{{row['maszyna'] }}" required>
+      </div>
+    </div>
+
+    <div class="col-auto">
+      <div class="mb-3">
+        <label class="form-label">Ilosc zamówionych</label>
+        <input type="text" name="ilosc_zam" class="form-control" value="{{ row['ilosc_zam'] }}" required>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Nowe</label>
+        <input type="text" name="nowe" class="form-control" value="{{ row['nowe'] }}" required>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Zregenerowane</label>
+        <input type="text" name="regen" class="form-control" value="{{ row['regen'] }}" required>
+      </div>
+
+      <div class="col-auto">
+        <br>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" value="{{ row['krytyczne'] }}" name="krytyczne" {%if row['krytyczne']%} checked {%endif%}>
+          <label class="form-check-label"> Krytyczne </label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" value="{{ row['rp'] }}" name="rp" {%if row['krytyczne']%} checked {%endif%}>
+          <label class="form-check-label"> Podlega regeneracji </label>
+        </div>
+      </div>
+
+    </div>
+    
+    <div class="col-auto">
+
+      <div class="mb-3">
+        <label class="form-label">Stan minimalny</label>
+        <input type="text" name="stan_min" class="form-control" value="{{ row['stan_min'] }}" required>
+      </div>
+
+
+      <div class="mb-3">
+        <label class="form-label">Do regeneracji</label>
+        <input type="text" name="do_reg" class="form-control" value="{{ row['do_reg'] }}" required>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Złomowane</label>
+        <input type="text" name="zlom" class="form-control" value="{{ row['zlom'] }}" required>
+      </div>
+
+    </div>
+      </div>
+
+    <div class="row d-flex justify-content-center">
+      <div class="col-auto">
+        <div class="mb-6">
+          <label class="form-label">Opis</label>
+          <textarea class="form-control" name="opis" id="opis{{row['id']}}" rows="3"
+            maxlength="200">{{ row['opis'] }}</textarea>
+          <div id="count_opis{{row['id']}}" class="form-text"></div>
+        </div>
+
+        <div class="row">
+          <div class="col-auto">
+            <label class="form-label">Sklep</label>
+            <input type="text" name="shop" class="form-control" placeholder="https:// ..." value="{{ row['shop'] }}">
+          </div>
+
+          <div class="col-auto was-validated">
+            <label class="form-label">cena</label>
+            <div class="input-group mb-3">
+              <span class="input-group-text">PLN</span>
+              <input type="text" name="cena" class="form-control" aria-label="Amount (to the nearest dollar)"
+                value="{{ row['cena'] }}" required>
+            </div>
+          </div>
+        </div>
+
+        {# <div class="mb-3">
+          <label class="form-label">Zdjęcia częsci</label>
+          <input class="form-control" type="file" name="formFileMultiple" multiple>
+        </div> # TODO Create code for uplaud file #}
+        <br>
+      </div>
+    </div>
+
+
+     {# _____________________End management-warehouse____________________ #}
+       </div>
+      <div class="modal-footer">
+
+
+          <button type="submit" class="btn btn-primary" name="action" value="save">Zapisz</button>
+
+
+          {%if current_user.rank >= 3 %}
+          <button type="button" class="btn btn-primary" name="#{{row['id']}}" value="#{{row['id']}}">Zamów</button>
+          <button type="submit" class="btn btn-danger" name="action" value="delete">Usuń</button>
+          {%endif%}
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
+        {# <button type="button" class="btn btn-primary">Zapisz</button> #}
+</form>
+      </div>
+    </div>
+  </div>
+</div>
+{# _____________________End Modal____________________ #}
+
+<script>
+var text_max1 = 200;
+$('#count_opis{{row['id']}}').html('0 / ' + text_max1);
+
+$('#opis{{row['id']}}').keyup(function () {
+var text_length = $('#opis{{row['id']}}').val().length;
+var text_remaining = text_max1 - text_length;
+
+$('#count_opis{{row['id']}}').html(text_length + ' / ' + text_max1);
+});
+</script>

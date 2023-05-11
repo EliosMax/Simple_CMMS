@@ -1,0 +1,149 @@
+{% extends 'base.html' %}"
+
+{% block content %}
+<form method="post">
+
+  <div class="row align-items-start">
+
+    <div class="col-md-3 was-validated">
+      <div class="mb-3">
+        <label class="form-label">Nazwa</label>
+        <input type="text" name="nazwa" class="form-control" value="{{ row['nazwa'] }}" required>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Typ</label>
+        <input type="text" name="typ" class="form-control" value="{{ row['typ'] }}" required>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Lokalizacja</label>
+        <input type="text" name="lokalizacja" class="form-control" value="{{ row['lokalizacja'] }}" required>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Maszyna</label>
+        <input type="text" name="maszyna" class="form-control" value="{{row['maszyna'] }}" required>
+      </div>
+    </div>
+
+    <div class="col-md-1 was-validated">
+      <div class="mb-3">
+        <label class="form-label">Ilosc zamówionych</label>
+        <input type="text" name="ilosc_zam" class="form-control" value="{{ row['ilosc_zam'] }}" required>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Nowe</label>
+        <input type="text" name="nowe" class="form-control" value="{{ row['nowe'] }}" required>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Zregenerowane</label>
+        <input type="text" name="regen" class="form-control" value="{{ row['regen'] }}" required>
+      </div>
+
+      <div class="col">
+        <br>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" value="{{ row['krytyczne'] }}" name="krytyczne" {%if row['krytyczne']%} checked {%endif%}>
+          <label class="form-check-label"> Krytyczne </label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" value="{{ row['rp'] }}" name="rp" {%if row['krytyczne']%} checked {%endif%}>
+          <label class="form-check-label"> Podlega regeneracji </label>
+        </div>
+      </div>
+
+    </div>
+    <div class="col-md-1 was-validated">
+
+      <div class="mb-3">
+        <label class="form-label">Stan minimalny</label>
+        <input type="text" name="stan_min" class="form-control" value="{{ row['stan_min'] }}" required>
+      </div>
+
+
+      <div class="mb-3">
+        <label class="form-label">Do regeneracji</label>
+        <input type="text" name="do_reg" class="form-control" value="{{ row['do_reg'] }}" required>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Złomowane</label>
+        <input type="text" name="zlom" class="form-control" value="{{ row['zlom'] }}" required>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">ID:</label>
+        <input type="text" name="update_id" class="form-control" value="{{ row['id'] }}" readonly>
+      </div>
+
+    </div>
+    <div class="row align-items-start">
+      <div class="col-md-6">
+        <div class="mb-3">
+          <label class="form-label">Opis</label>
+          <textarea class="form-control" name="opis" id="opis" rows="3"
+            maxlength="200">{{ row['opis'] }}</textarea>
+          <div id="count_opis" class="form-text"></div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <label class="form-label">Sklep</label>
+            <input type="text" name="shop" class="form-control" placeholder="https:// ..." value="{{ row['shop'] }}">
+          </div>
+
+          <div class="col was-validated">
+            <label class="form-label">cena</label>
+            <div class="input-group mb-3">
+              <span class="input-group-text">PLN</span>
+              <input type="text" name="cena" class="form-control" aria-label="Amount (to the nearest dollar)"
+                value="{{ row['cena'] }}" required>
+            </div>
+          </div>
+        </div>
+
+        {# <div class="mb-3">
+          <label class="form-label">Zdjęcia częsci</label>
+          <input class="form-control" type="file" name="formFileMultiple" multiple>
+        </div> # TODO Create code for uplaud file #}
+        <br>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+          {# {%if row['shop'] %}<a href="{{ row['shop'] }}" type="submit" class="btn btn-primary" formnovalidate>Złóż
+          zamówieni</a>{%endif%} #}
+          {%if current_user.rank >= 2 %}
+          <button type="submit" class="btn btn-primary" name="action" value="save">Zapisz</button>
+          {%endif%}
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#stockout-show">Braki magazynowe</button>
+          {%if current_user.rank >= 3 %}
+          <button type="button" class="btn btn-primary" name="#{{row['id']}}" value="#{{row['id']}}">Zamów</button>
+          <button type="submit" class="btn btn-danger" name="action" value="delete">Usuń</button>
+          {%endif%}
+          <a href="/management-warehouse" type="submit" class="btn btn-secondary" formnovalidate>Ukryj</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+{# <----- ____________________Modal____________________ #}
+{% include 'stockout-show.html' %} 
+
+{% endblock %}
+
+{% block js %}
+
+var text_max1 = 200;
+$('#count_opis').html('0 / ' + text_max1);
+
+$('#opis').keyup(function () {
+var text_length = $('#opis').val().length;
+var text_remaining = text_max1 - text_length;
+
+$('#count_opis').html(text_length + ' / ' + text_max1);
+});
+
+
+{% endblock %}

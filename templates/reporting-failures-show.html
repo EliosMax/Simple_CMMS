@@ -1,0 +1,111 @@
+{# ____________________Modal____________________ #}
+
+{# <!-- Button trigger modal --> #}
+{# <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#pending_failures">
+  Launch demo modal
+</button> #}
+{# <!-- Modal --> #}
+<div class="modal fade" id="reporting-failures" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg">   
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5">Oczekujące awarie</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        {# ____________________management-warehouse____________________ #}
+
+<form method="post">
+   <div class="row align-items-start was-validated">
+      <div class="col-auto">
+         <label for="disabledTextInput" class="form-label">Linia</label>
+         <select class="form-select" name="linia" required>
+            <option value="">Wybierz ...</option>
+            <option value="Sx">Linia_1</option>
+            <option value="NX">Szlifierka_1</option>
+            <option value="PDe">Klejarka_2</option>
+            <option value="VW">Assembly_Line 3</option>
+            <option value="Injecton_1">Injecton_1</option>
+         </select>
+         <label for="disabledTextInput" class="form-label">Maszyna</label>
+         <select class="form-select" name="maszyna" required>
+            <option value="">Wybierz ...</option>
+            <option value="Stoły motażowe">Stoły motażowe</option>
+            <option value="Hot-stag 1">Maszyna_1</option>
+            <option value="Hot-stag 2">Klejarka_5</option>
+            <option value="Swich-Tester">Krawędziarka</option>
+         </select>
+      </div>
+      <div class="col-auto">
+
+         <label for="disabledTextInput" class="form-label">Typ zgłoszenia</label>
+         <select class="form-select" name="typ" required>
+            <option value="">Wybierz ...</option>
+            <option value="1">Awaria</option>
+            <option value="2">Usterka</option>
+            <option value="3">Usprawnienie</option>
+            <option value="4">BHP</option>
+         </select>
+
+         <label for="disabledTextInput" class="form-label">Rodzaj zgłoszeznia</label>
+         <select class="form-select" name="rodzaj" required>
+            <option value="">Wybierz ...</option>
+            <option value="1">Mechaniczna</option>
+            <option value="2">Elektryczna</option>
+            <option value="3">IT</option>
+         </select>
+      </div>
+
+{#    TODO Lider może przypisać osobe odpowiedzialną do zgłoszenia.
+      <div class="col-auto">
+         <label for="disabledTextInput" class="form-label">Odpowiedzialny</label>
+         <select class="form-select" name="rodzaj" required>
+            <option value="">Osoba odpowiedzialna</option>
+             {% for row in rows %}
+                  <option value="{{row['mechanik']}}">{{row['mechanik']}}</option>
+            {% endfor %}
+         </select>
+      </div> 
+#}
+
+   </div>
+   <div class="col-auto">
+      <div class="mb-3 was-validated">
+         <label class="form-label">Opis problemu</label>
+         <textarea class="form-control" name="zgloszenie" id="zgloszenie" rows="3" maxlength="200" required></textarea>
+         <div id="count_zgloszenie" class="form-text" align="right"></div>
+         </div>
+         {# <div class="mb-3">
+            <label for="formFileMultiple" class="form-label">Zdjęcia z awarii</label>
+            <input class="form-control" type="file" name="formFileMultiple" multiple>
+         </div> # TODO Create code for uplaud file #}
+   
+   </div>
+
+
+     {# _____________________End management-warehouse____________________ #}
+       </div>
+      <div class="modal-footer">
+      <button type="submit" class="btn btn-primary" name="action" value="reporting-failures">Zgłoś awarie</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
+        {# <button type="button" class="btn btn-primary">Zapisz</button> #}
+  </form>
+      </div>
+    </div>
+  </div>
+</div>
+{# _____________________End Modal____________________ #}
+
+<script>
+
+var text_max4 = 200;
+$('#count_zgloszenie').html('0 / ' + text_max4 );
+
+$('#zgloszenie').keyup(function() {
+var text_length = $('#zgloszenie').val().length;
+var text_remaining = text_max4 - text_length;
+
+$('#count_zgloszenie').html(text_length + ' / ' + text_max4);
+});
+
+</script>

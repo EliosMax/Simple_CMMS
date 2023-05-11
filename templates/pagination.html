@@ -1,0 +1,25 @@
+ {% if nr_page and max_page > 1 %}
+  <nav aria-label="Page navigation">
+    <ul class="pagination justify-content-end">
+    <li class="page-item">
+        <a class="page-link {% if nr_page == 1 %} disabled {%endif%}" href="?page={{nr_page-1}}">Poprzednia</a>
+      </li>
+
+      {% if nr_page > 4 %}<li class="page-item"><a class="page-link" href="?page=1">1...</a></li>{%endif%}
+      {% if nr_page > 3 %}<li class="page-item"><a class="page-link" href="?page={{nr_page-3}}">{{nr_page-3}}</a></li>{%endif%}
+      {% if nr_page > 2 %}<li class="page-item"><a class="page-link" href="?page={{nr_page-2}}">{{nr_page-2}}</a></li>{%endif%}
+      {% if nr_page > 1 %}<li class="page-item"><a class="page-link" href="?page={{nr_page-1}}">{{nr_page-1}}</a></li>{%endif%}
+  
+      <li class="page-item active"><a class="page-link" href="?page={{nr_page}}">{{nr_page}}</a></li>
+  
+      {% if nr_page <= (max_page-1) %}<li class="page-item"><a class="page-link" href="?page={{nr_page+1}}">{{nr_page+1}}</a></li>{%endif%}
+      {% if nr_page <= (max_page-2) %}<li class="page-item"><a class="page-link" href="?page={{nr_page+2}}">{{nr_page+2}}</a></li>{%endif%}
+      {% if nr_page <= (max_page-3) %}<li class="page-item"><a class="page-link" href="?page={{nr_page+3}}">{{nr_page+3}}</a></li>{%endif%}
+       {% if nr_page < (max_page-3) %}<li class="page-item"><a class="page-link" href="?page={{max_page}}">...{{max_page}}</a></li>{%endif%}
+      
+      <li class="page-item">
+        <a class="page-link {% if nr_page >= max_page %} disabled {%endif%}" href="?page={{nr_page+1}}">Następna</a>
+      </li>
+    </ul>
+  </nav>
+ {%endif%}

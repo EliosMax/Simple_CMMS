@@ -1,0 +1,273 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<form method="post"> {# class="was-validated" #}
+  <div class="row align-items-start ">
+  
+    <div class="col-md-2 was-validated">
+
+      <div class="mb-3">
+        <label for="disabledTextInput" class="form-label">ID</label>
+        <input type="text" name="update_id" id="update_id" class="form-control" value="{{ row['id'] }}" readonly>
+      </div>
+
+      <div class="mb-3">
+        <label for="disabledTextInput" class="form-label">Wprowadzający</label>
+        <input type="text" name="requestor" id="requestor" class="form-control" value="{{ row['requestor'] }}" readonly>
+      </div>
+
+      <div class="mb-3">
+        <label for="disabledTextInput" class="form-label">Data wprowadzenia</label>
+        <input type="text" name="czas_start" id="czas_start" class="form-control" value="{{ row['czas_start'] }}" readonly>
+      </div>
+
+      <div class="mb-3">
+        <label for="disabledTextInput" class="form-label">Data zakończenia</label>
+        <input type="text" name="czas_stop" id="czas_stop" class="form-control" value="{{ row['czas_stop'] }} " readonly>
+      </div>
+
+      <div class="mb-3">
+        <label for="disabledTextInput" class="form-label">Czas awarii</label>
+        <input type="text" name="czas_trwania" id="czas_trwania" class="form-control" maxlength="4" value="{{ row['czas_trwania'] }}"
+          required>
+      </div>
+
+      <div class="mb-3">
+        <label for="disabledTextInput" class="form-label">Linia</label>
+        <input type="text" name="linia" id="linia" class="form-control" value="{{ row['linia'] }}" readonly>
+      </div>
+
+      <div class="mb-3">
+        <label for="disabledTextInput" class="form-label">Maszyna</label>
+        <input type="text" name="maszyna" id="maszyna" class="form-control" value="{{ row['maszyna'] }}" readonly>
+      </div>
+
+    {%if row['typ']!=5 %} 
+      <label for="disabledTextInput" class="form-label" >Typ zgłoszenia</label>
+      <select class="form-select" name="typ" id="typ" >
+        <option value="1" {%if row['typ']==1 %} selected {%endif%}>Awaria</option>
+        <option value="2" {%if row['typ']==2 %} selected {%endif%}>Usterka</option>
+        <option value="3" {%if row['typ']==3 %} selected {%endif%}>Usprawnienie</option>
+        <option value="4" {%if row['typ']==4 %} selected {%endif%}>BHP</option>
+        {# <option value="5" {%if row['typ']==5 %} selected {%endif%}>Przegląd techniczny</option> #}
+      </select>
+      {%else %} 
+      <label for="disabledTextInput" class="form-label" >Typ zgłoszenia</label>
+      <select class="form-select" name="typ" id="typ"  readonly>
+        <option value="5" >Przegląd techniczny</option>
+      </select>
+      {%endif%}
+
+      <label for="disabledTextInput" class="form-label">Rodzaj zgłoszeznia</label>
+      <select class="form-select" name="rodzaj" id="rodzaj" >
+        <option value="1" {%if row['rodzaj']==1 %} selected {%endif%}>Mechaniczna</option>
+        <option value="2" {%if row['rodzaj']==2 %} selected {%endif%}>Elektryczna</option>
+        <option value="3" {%if row['rodzaj']==3 %} selected {%endif%}>IT</option>
+      </select>
+
+      </select>
+      <label for="disabledTextInput" class="form-label">Status zgłoszeznia</label>
+      <select class="form-select" name="status" id="status" >
+        <option value="1" {%if row['status']==1 %} selected {%endif%}>Zrealizowano</option>
+        <option value="2" {%if row['status']==2 %} selected {%endif%}>W realizacji</option>
+      </select>
+
+    </div>
+
+    <div class="col-md-6">
+      <div class="mb-3 was-validated">
+        <label class="form-label">Opis problemu</label>
+        <textarea class="form-control" name="zgloszenie" id="zgloszenie" rows="3" maxlength="200"
+          required>{{ row['zgloszenie'] }}</textarea>
+        <div id="count_zgloszenie" class="form-text"></div>
+      </div>
+      <div class="mb-3 was-validated">
+        <label class="form-label">Przyczyna awarii</label>
+        <textarea class="form-control" name="przyczyna" id="przyczyna" rows="3" maxlength="200"
+          required>{{ row['przyczyna'] }}</textarea>
+        <div id="count_przyczyna" class="form-text"></div>
+      </div>
+      <div class="mb-3 was-validated">
+        <label class="form-label">Opis czynności</label>
+        <textarea class="form-control" name="opis" id="opis" rows="3" maxlength="200"
+          required>{{ row['opis'] }}</textarea>
+        <div id="count_opis" class="form-text"></div>
+      </div>
+      
+      {# 
+      <div class="mb-3">
+        <label for="formFileMultiple" class="form-label">Zdjęcia z awarii</label>
+        <input class="form-control" type="file" name="formFileMultiple" multiple>
+      </div>  # TODO Create code for uplaud file 
+      #}
+
+      <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        {# przycis dla POST #}
+        {# <button type="submit" class="btn btn-primary" name="update_id" value="{{ row['id'] }}">Zapisz</button> #}
+        {%if current_user.rank >= 2 %}
+        <button type="button" class="btn btn-primary" id="saveButton">Zapisz</button>
+        {%endif%}
+        {%if current_user.rank >= 3 %}
+        <a href="?action=delete&id={{row['id']}}" type="submit" class="btn btn-danger" formnovalidate>Usuń</a>
+        {%endif%}
+        {# {%if row['typ']==5 %}
+        <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#review-card-show">Karta przeglądu</button>
+        {%endif%}  # TODO Create review card link with pdf instruction #}
+        <a href="/management-failure" type="submit" class="btn btn-secondary" formnovalidate>Ukryj</a>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <br>
+      <div class="form-control">
+      <div class="mb-3">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#takePart">Pobierz częsci</button>
+        </div>
+        {# <label class="form-label">Użyte częsci</label> #}
+        <ul class="list-group" name="parts" id="parts">
+          {# <input class="list-group-item" value="104 - Zawór solenoidowy 12V DC - Nowa" readonly> #}
+        </ul>
+
+      </div>
+      
+    </div>
+
+  </div>
+</form>
+<br>
+{# ____________________End Failures____________________ #}
+
+{% include 'take-part.html' %} {# <----- ____________________Modal____________________ #}
+
+{% endblock %}
+
+{% block js %}
+
+{# Generowanie przyciskuw w tabli pobierania częsci #}
+var part_new=""
+var part_reg=""
+// Pobranie przycisków
+var buttons = document.querySelectorAll('#warehouse_table .btn');
+// Przypisanie akcji do przycisków
+buttons.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+
+        // Pobranie wartości przycisku
+        var value_data = this.getAttribute('data-value');
+        var value_tmp = value_data.split("#");
+
+        if (value_tmp[0] == "N") {
+            part_new = part_new +','+ value_tmp[1];
+        } else if (value_tmp[0]  == "R") {
+            part_reg = part_reg +','+ value_tmp[1];
+        }
+
+        var value = value_tmp[0] + "/ID:" + value_tmp[1] + " - " + value_tmp[2]
+        // Dodanie wartości do listy
+        var valuesList = document.querySelector('.list-group');
+        var listItem = document.createElement('li');
+        listItem.classList.add('list-group-item'); // dodajemy klasę "list-group-item"
+        var itemText = document.createTextNode(value);
+        listItem.appendChild(itemText);
+        valuesList.appendChild(listItem);
+    });
+});
+
+{# Generowanie linku "GET" #}
+$(document).ready(function(){
+    $("#saveButton").click(function(){
+      var update_id = "&update_id=" + $("#update_id").val();
+      var requestor = "&requestor=" + $("#requestor").val();
+      var czas_start = "&czas_start=" + $("#czas_start").val();
+      var czas_stop = "&czas_stop=" + $("#czas_stop").val();
+      var czas_trwania = "&czas_trwania=" + $("#czas_trwania").val();
+      var status = "&status=" + $("#status").val();
+      var przyczyna = "&przyczyna=" + $("#przyczyna").val();
+      var opis = "&opis=" + $("#opis").val();
+      var linia = "&linia=" + $("#linia").val();
+      var maszyna = "&maszyna=" + $("#maszyna").val();
+      var rodzaj = "&rodzaj=" + $("#rodzaj").val();
+      var typ = "&typ=" + $("#typ").val();
+      var zgloszenie = "&zgloszenie=" + $("#zgloszenie").val();
+      window.location.href = "?action=save"+ "&part_new=" + part_new + "&part_reg=" + part_reg + update_id + requestor + czas_start + czas_stop + czas_trwania + status + przyczyna + opis + linia + maszyna + rodzaj + typ + zgloszenie;
+    });
+  });
+
+{# Sortowanie dla dodawania cześci na stronie "failures.html" po nzawie #}
+function myFunction() {
+    var input, filter, table, tr, td, i, j, txtValue;
+    input = document.getElementById("search_txt");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("warehouse_table");
+    tr = table.getElementsByTagName("tr");
+
+    for (i = 0; i < tr.length; i++) {
+        var matches = false; for (j = 0; j < tr[i].cells.length; j++) {
+            td = tr[i].cells[j]; if (td) {
+                txtValue = td.textContent || td.innerText; if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    matches = true;
+                    break;
+                }
+            }
+        }
+        if (matches) {
+            tr[i].style.display = "";
+        } else {
+            tr[i].style.display = "none";
+        }
+    }
+}
+
+{# Sortowanie dla dodawania cześci na stronie "failures.html" po ID#}
+function myFunctionId() {
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("search_id");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("warehouse_table");
+    tr = table.getElementsByTagName("tr");
+
+    for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[0]; if (td) {
+            txtValue = td.textContent ||
+            td.innerText; if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = "";
+            } else {
+                tr[i].style.display = "none";
+            }
+        }
+    }
+}
+
+
+{# Limity w polach tekstowych #}
+var text_max_opis = 200;
+$('#count_opis').html('0 / ' + text_max_opis);
+
+var text_max_zgloszenie = 200;
+$('#count_zgloszenie').html('0 / ' + text_max_zgloszenie);
+
+var text_max_przyczyna = 200;
+$('#count_przyczyna').html('0 / ' + text_max_przyczyna);
+
+$('#opis').keyup(function () {
+    var text_length = $('#opis').val().length;
+    var text_remaining = text_max_opis - text_length;
+
+    $('#count_opis').html(text_length + ' / ' + text_max_opis);
+});
+
+$('#zgloszenie').keyup(function () {
+    var text_length = $('#zgloszenie').val().length;
+    var text_remaining = text_max_zgloszenie - text_length;
+
+    $('#count_zgloszenie').html(text_length + ' / ' + text_max_zgloszenie);
+});
+
+$('#przyczyna').keyup(function () {
+    var text_length = $('#przyczyna').val().length;
+    var text_remaining = text_max_przyczyna - text_length;
+
+    $('#count_przyczyna').html(text_length + ' / ' + text_max_przyczyna);
+});
+
+    {% endblock %}

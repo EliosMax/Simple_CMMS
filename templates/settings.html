@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 offset-md-3 mt-5">
+    <form class="was-validated" action='login' method='POST'>
+      <label for="inputPassword5" class="form-label">Stare hasło</label>
+      <input type="password" name="password" class="form-control" aria-labelledby="passwordHelpBlock" required>
+      <label for="inputPassword5" class="form-label">Nowe hasło</label>
+      <input type="password" name="password" class="form-control" aria-labelledby="passwordHelpBlock" required>
+      <label for="inputPassword5" class="form-label">Powtórz nowe hasło</label>
+      <input type="password" name="password" class="form-control" aria-labelledby="passwordHelpBlock" required>
+    <br>
+      <div class="container text-center">
+      <button type="submit" class="btn btn-primary mb-3">Zapisz</button>
+      <div>
+    </form>
+  </div>
+</div>
+</div>
+{% endblock %}

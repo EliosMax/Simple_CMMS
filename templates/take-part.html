@@ -1,0 +1,68 @@
+{# ____________________Modal____________________ #}
+{# <!-- Modal --> #}
+<div class="modal fade" id="takePart" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-xll">  
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5">Wykaz części</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        {# ____________________management-warehouse____________________ #}
+
+        <form class="d-flex" id="search-part" role="search">
+          <input class="form-control me-2" id="search_id" onkeyup="myFunctionId()" placeholder="Wyszukaj po ID ... "
+            aria-label="Search">
+          <input class="form-control me-2" id="search_txt" onkeyup="myFunction()" placeholder="Wyszukaj ... "
+            aria-label="Search">
+          {# <button class="btn btn-outline-success" type="submit">Szukaj</button> #}
+        </form>
+        <br>
+        <table class="table table-bordered table-auto" id="warehouse_table">
+          <thead class="text-light bg-dark">
+            <tr class="text-center">
+              <td>ID</td>
+              <td>Nazwa</td>
+              <td>Typ</td>
+              <td>Nowe</td>
+              <td>Zregenerowane</td>
+              <td>Maszyna</td>
+              <td>Lokalizacja</td>
+              <td style="width: 240px; white-space: nowrap;">Pobierz</td>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in rows %}
+            {% if row['nowe'] or row['regen'] %}
+            <tr>
+              <td>{{row['id']}}</td>
+              <td>{{row['nazwa']}}</td>
+              <td>{{row['typ']}}</td>
+              <td>{{row['nowe']}}</td>
+              <td>{{row['regen']}}</td>
+              <td>{{row['maszyna']}}</td>
+              <td>{{row['lokalizacja']}}</td>
+              <td class="text-center">
+              {% if row['nowe'] or row['regen'] %}
+                  {% if row['nowe'] %} <button type="button" data-value="N#{{row['id']}}#{{row['nazwa']}}" class="btn btn-primary">Nową</button>{%endif%}
+                  {% if row['regen'] %} <button type="button" data-value="R#{{row['id']}}#{{row['nazwa']}}" class="btn btn-primary">Zregenerowaną</button>{%endif%}
+              {%else%}
+                   <button type="button" class="btn btn-danger" disabled>Brak</button>
+              {%endif%}
+              </td>
+              </td>
+            </tr>
+            {%endif%}
+            {% endfor %}
+          </tbody>
+        </table>
+        {# _____________________End management-warehouse____________________ #}
+       </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
+        {# <button type="button" class="btn btn-primary">Zapisz</button> #}
+      </div>
+    </div>
+  </div>
+</div>
+{# _____________________End Modal____________________ #}
