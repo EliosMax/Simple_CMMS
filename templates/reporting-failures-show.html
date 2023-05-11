@@ -56,17 +56,18 @@
          </select>
       </div>
 
-{#    TODO Lider może przypisać osobe odpowiedzialną do zgłoszenia.
+   {# TODO Lider może przypisać osobe odpowiedzialną do zgłoszenia. #}
+   {%if current_user.rank >= 3 %}  
       <div class="col-auto">
          <label for="disabledTextInput" class="form-label">Odpowiedzialny</label>
-         <select class="form-select" name="rodzaj" required>
-            <option value="">Osoba odpowiedzialna</option>
-             {% for row in rows %}
-                  <option value="{{row['mechanik']}}">{{row['mechanik']}}</option>
+         <select class="form-select" name="responsible">
+            <option value="">Nie przydzielaj zgłoszenia</option>
+             {% for row in row_mechanic %}
+                  <option value="{{row[0]}}">{{row[0]}}</option>
             {% endfor %}
          </select>
       </div> 
-#}
+   {%endif%}
 
    </div>
    <div class="col-auto">

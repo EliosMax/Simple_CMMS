@@ -169,7 +169,7 @@ def base():
    rows = sql_select(query_select)
    return render_template('index.html', rows=rows)
 
-################__________________FAILURS_____________________###############
+################__________________FAILURE_____________________###############
 
 @app.route('/management-failure', methods = ['POST', 'GET'])
 @flask_login.login_required
@@ -197,15 +197,20 @@ def failures():
          # f.save(f.filename)  
          # return render_template("Acknowledgement.html", name = f.filename)  
   
+         # Możliwość przypisanie przez lidera osoby odpowiedziialnej do zgłoszenia
          rows['zgloszenie'] = request.form['zgloszenie']
-         rows['mechanik'] = flask_login.current_user.name
+         if "responsible" in request.form and request.form['responsible']:
+            rows['mechanik'] = request.form['responsible']
+         else:
+            rows['mechanik'] = flask_login.current_user.name
+            
          if all(rows.values()): 
             currentDateTime = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             # # Definiowanie zapytania z użyciem prepared statements
             # query_select = "INSERT INTO awarie (requestor, mechanik, linia, maszyna, rodzaj, typ, zgloszenie, czas_start) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
             # # Wykonanie zapytania z użyciem wartości parametrów
             # params = (rows['requestor'], rows['mechanik'], rows['linia'], rows['maszyna'], rows['rodzaj'], rows['typ'], rows['zgloszenie'], currentDateTime)
-            query_select = f"INSERT INTO awarie (requestor, mechanik, linia, maszyna, rodzaj, typ, zgloszenie, czas_start) VALUES('{rows['mechanik']}', '{rows['mechanik']}', '{rows['linia']}', '{rows['maszyna']}', '{rows['rodzaj']}', '{rows['typ']}', '{rows['zgloszenie']}', '{currentDateTime}')"
+            query_select = f"INSERT INTO awarie (requestor, mechanik, linia, maszyna, rodzaj, typ, zgloszenie, czas_start) VALUES('{flask_login.current_user.name}', '{rows['mechanik']}', '{rows['linia']}', '{rows['maszyna']}', '{rows['rodzaj']}', '{rows['typ']}', '{rows['zgloszenie']}', '{currentDateTime}')"
             sql_insert(query_select)
             return redirect('/management-failure')
 
@@ -282,8 +287,11 @@ def failures():
    query_select = f"SELECT * FROM awarie ORDER BY czas_start DESC"
    rows_all = sql_select(query_select)
    
+   # Pobiera wszystkie nazwy mechanikó w celu możliwości przypisania przez lidera zgłoszenia.
+   query_select = f"SELECT login FROM users"
+   row_mechanic = sql_select(query_select)
    
-   return render_template("management-failure.html",rows_all = rows_all,  rows = rows, color_info = color_info_list, nr_page = nr_page, max_page = max_page)
+   return render_template("management-failure.html",rows_all = rows_all,  rows = rows, color_info = color_info_list, nr_page = nr_page, max_page = max_page, row_mechanic=row_mechanic)
 
 ###############__________________WAREHOUSE_____________________###############
 
