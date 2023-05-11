@@ -1,6 +1,7 @@
 import datetime
 from flask import Flask, redirect, render_template, request
 import sqlite3 as sql
+from werkzeug.security import generate_password_hash, check_password_hash
 
 import flask_login
 
@@ -133,7 +134,7 @@ def login():
       
    if request.method == 'POST':
       login_email = request.form['login_email']
-      if login_email in users and request.form['password'] == users[login_email]['password']:
+      if login_email in users and check_password_hash(users[login_email]['password'], request.form['password']):
          user = User()
          user.id = login_email
          flask_login.login_user(user)
@@ -395,36 +396,30 @@ def warehouse_page():
    rows_all = sql_select(query_select)
    
    return render_template('management-warehouse.html',rows_all=rows_all, rows = rows, color_info = color_info_list, nr_page = nr_page, max_page = max_page)
-###############__________________MESSEAES_____________________###############
 
-
-@app.route('/messages')
-@flask_login.login_required
-def messages():
-   # Pobiera wszystkie wpisy dla funkcji "Braki bagazynowe"
-   query_select = f"SELECT * FROM warehouse ORDER BY id"  # lokalizacja
-   rows = sql_select(query_select)
-   return render_template('messages.html', rows = rows)
 
 ###############__________________SETTING_____________________###############
-# TODO dodać szyfrowanie haseł - bcrypt
-# if bcrypt.checkpw(password.encode('utf-8'), passwordcheck):
-# hashed = bcrypt.hashpw(password2.encode('utf-8'), bcrypt.gensalt())
+# TODO dodać szyfrowanie haseł 
 
 @app.route('/settings', methods = ['POST', 'GET'])
 @flask_login.login_required
 def settings():
-   
-   # if request.method == 'POST':
-   #    login = flask_login.current_user.name
-   #    if login in users and request.form['password'] == users[login]['password']:
-   #       user = User()
-   #       user.id = login
-   #       flask_login.login_user(user)
-   #       return redirect('/')  #return redirect(url_for('protected'))
-   #    error = 'Złe hasło!'
-   #    return render_template('login.html', error=error)
-   
+   global users
+   info = ''
+   if request.method == 'POST':
+      if check_password_hash(users[flask_login.current_user.id]['password'], request.form['oldPass']):
+         if request.form['newPass1'] == request.form['newPass2']:
+            info = 'Zmieniono hasło'
+            query_update = f"UPDATE users SET password='{generate_password_hash(request.form['newPass1'])}' WHERE login='{flask_login.current_user.id}'"
+            sql_update(query_update)
+            users = load_users()
+            return render_template('settings.html', info=info)
+         else:
+            info = 'Hasła nie są jednakowe!'
+            return render_template('settings.html', info=info)
+      else:
+         info = 'Złe hasło!'
+         return render_template('settings.html', info=info)
    return render_template('settings.html')
 
 ###############__________________OTHER_____________________###############
