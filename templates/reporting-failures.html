@@ -3,25 +3,20 @@
 <form method="post">
    <div class="row align-items-start was-validated">
       <div class="col-md-3">
-         <label for="disabledTextInput" class="form-label">Linia</label>
-         <select class="form-select" name="linia" required>
+         <label for="LineID" class="form-label">Linia</label>
+         <select class="form-select" id="LineID" name="linia" onchange="wybierzLinie()" required>
             <option value="">Wybierz ...</option>
-            <option value="Sx">Linia_1</option>
-            <option value="NX">Szlifierka_1</option>
-            <option value="PDe">Klejarka_2</option>
-            <option value="VW">Assembly_Line 3</option>
-            <option value="Injecton_1">Injecton_1</option>
+            {% for row in Productionline %}
+            <option value="{{row['LineName']}}" data-user-id="{{row['LineID']}}">{{row['LineName']}}</option>
+            {% endfor %}
          </select>
-         <label for="disabledTextInput" class="form-label">Maszyna</label>
-         <select class="form-select" name="maszyna" required>
+         <label for="MachineID" class="form-label">Maszyna</label>
+         <select class="form-select" id="MachineID" name="maszyna" required>
             <option value="">Wybierz ...</option>
-            <option value="Stoły motażowe">Stoły motażowe</option>
-            <option value="Hot-stag 1">Maszyna_1</option>
-            <option value="Hot-stag 2">Klejarka_5</option>
-            <option value="Swich-Tester">Krawędziarka</option>
          </select>
+
       </div>
-      <div class="col-md-3">
+      <div class="col-auto">
 
          <label for="disabledTextInput" class="form-label">Typ zgłoszenia</label>
          <select class="form-select" name="typ" required>
@@ -40,27 +35,43 @@
             <option value="3">IT</option>
          </select>
       </div>
+
+      {# Lider może przypisać osobe odpowiedzialną do zgłoszenia. #}
+      {%if current_user.rank >= 3 %}
+      <div class="col-auto">
+         <label for="disabledTextInput" class="form-label">Odpowiedzialny</label>
+         <select class="form-select" name="responsible">
+            <option value="">Nie przydzielaj zgłoszenia</option>
+            {% for row in row_mechanic %}
+            <option value="{{row[0]}}">{{row[0]}}</option>
+            {% endfor %}
+         </select>
+      </div>
+      {%endif%}
+
    </div>
-   <div class="col-md-6">
-      <div class="mb-3">
+   <div class="col-auto">
+      <div class="mb-3 was-validated">
          <label class="form-label">Opis problemu</label>
          <textarea class="form-control" name="zgloszenie" id="zgloszenie" rows="3" maxlength="200" required></textarea>
          <div id="count_zgloszenie" class="form-text" align="right"></div>
-      {# 
-      <div class="mb-3">
-        <label for="formFileMultiple" class="form-label">Zdjęcia z awarii</label>
-        <input class="form-control" type="file" name="formFileMultiple" multiple>
-      </div>  # TODO Create code for uplaud file 
-      #}
       </div>
-      <button type="submit" class="btn btn-primary">Zgłoś awarie</button>
+      {# <div class="mb-3">
+         <label for="formFileMultiple" class="form-label">Zdjęcia z awarii</label>
+         <input class="form-control" type="file" name="formFileMultiple" multiple>
+      </div> # TODO Create code for uplaud file #}
+
+   </div>
+   </div>
+   <div class="modal-footer">
+      <button type="submit" class="btn btn-primary" name="action" value="reporting-failures">Zgłoś awarie</button>
+      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
    </div>
 </form>
 
 {% endblock %}
 
 {% block js %}
-
 var text_max4 = 200;
 $('#count_zgloszenie').html('0 / ' + text_max4 );
 
@@ -71,4 +82,24 @@ var text_remaining = text_max4 - text_length;
 $('#count_zgloszenie').html(text_length + ' / ' + text_max4);
 });
 
+{# Pola wyboru #}
+function wybierzLinie() {
+
+var line =
+document.getElementById("LineID").options[document.getElementById("LineID").selectedIndex].getAttribute("data-user-id");
+var machine = document.getElementById("MachineID");
+
+// Wyczyść poprzednie opcje z drugiego pola wyboru
+while (machine.options.length > 1) {
+machine.remove(1);
+}
+
+// Słownik z opcjami wyboru w zależności od wybranego miasta
+var opcjeMachine = {{machine|safe}}
+
+// Dodaj nowe opcje zależnie od wybranego miasta
+opcjeMachine[line].forEach(function (opcja) {
+machine.options.add(new Option(opcja, opcja));
+});
+}
 {% endblock %}

@@ -2,7 +2,6 @@ import datetime
 from flask import Flask, redirect, render_template, request
 import sqlite3 as sql
 from werkzeug.security import generate_password_hash, check_password_hash
-
 import flask_login
 
 app = Flask(__name__)
@@ -291,7 +290,28 @@ def failures():
    query_select = f"SELECT login FROM users"
    row_mechanic = sql_select(query_select)
    
-   return render_template("management-failure.html",rows_all = rows_all,  rows = rows, color_info = color_info_list, nr_page = nr_page, max_page = max_page, row_mechanic=row_mechanic)
+   # Pobiera wszystkie wpisy lini
+   query_select = f"SELECT * FROM Productionline"
+   Productionline = sql_select(query_select)
+   
+   query_select = f"SELECT * FROM Machine"
+   Machine = sql_select(query_select)
+   
+   # Przygodowanie składni do użycia zmiennej w JavaScript: var opcjeMachine = {{machine|safe}}
+   machine_as_list = []
+   machine_as_dict = {}
+   for r in Machine:
+      machine_as_list.clear()
+      if r["LineID"] in machine_as_dict.keys():
+         for temp in machine_as_dict[r["LineID"]]:
+            machine_as_list.append(temp)
+         machine_as_list.append(r["MachineName"])
+      else:
+         machine_as_list.append(r["MachineName"])
+         machine_as_dict[r["LineID"]] = machine_as_list
+      machine_as_dict[r["LineID"]] = machine_as_list.copy()
+   
+   return render_template("management-failure.html", machine=machine_as_dict, Productionline=Productionline, rows_all=rows_all,  rows=rows, color_info=color_info_list, nr_page=nr_page, max_page=max_page, row_mechanic=row_mechanic)
 
 ###############__________________WAREHOUSE_____________________###############
 
