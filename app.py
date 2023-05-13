@@ -352,7 +352,7 @@ def warehouse_page():
    # if not flask_login.current_user.rank >= 3:
    #    return render_template('401.html')
    
-   # Edytcja i dodawanie wpisuów z częsciami.
+   # Edytcja i dodawanie wpisów z częściami(add-part-show.html\part-show.html\part.html).
    if request.method == 'POST':
       row = {}
       row.clear()
@@ -364,20 +364,27 @@ def warehouse_page():
       row['do_reg'] = request.form['do_reg']
       row['regen'] = request.form['regen']
       row['zlom'] = request.form['zlom']
-      if request.form == ['rp']:
+      
+      # print(request.form['rp'])
+      # print(request.form['krytyczne'])
+      
+      if 'rp' in request.form:
          row['rp'] = request.form['rp']
       else:
          row['rp'] = 0
+         
       row['maszyna'] = request.form['maszyna']
       row['lokalizacja'] = request.form['lokalizacja']
-      if request.form == ['krytyczne']:
+      
+      if 'krytyczne' in request.form :
          row['krytyczne'] = request.form['krytyczne']
       else:
-         row['krytyczne']  = 0
+         row['krytyczne'] = 0
+         
       row['cena'] = request.form['cena']
-      row['opis'] = request.form['opis'] # brak w bazie danych! Nie dodano do INSERT
-      row['shop'] = request.form['shop'] # brak w bazie danych! Nie dodano do INSERT
-      
+      # row['opis'] = request.form['opis'] # brak w bazie danych! Nie dodano do INSERT
+      # row['shop'] = request.form['shop'] # brak w bazie danych! Nie dodano do INSERT
+
       # Zapisanie zmian w trakcie edycji.
       if request.form['action'] == 'save':
          row['update_id'] = request.form['update_id']
@@ -423,7 +430,11 @@ def warehouse_page():
    query_select = f"SELECT * FROM warehouse ORDER BY nazwa DESC"
    rows_all = sql_select(query_select)
    
-   return render_template('management-warehouse.html',rows_all=rows_all, rows = rows, color_info = color_info_list, nr_page = nr_page, max_page = max_page)
+   # Dobór maszyny do częsci.
+   query_select = f"SELECT MachineName FROM Machine"
+   machineName = sql_select(query_select)
+   
+   return render_template('management-warehouse.html',machineName=machineName ,rows_all=rows_all, rows = rows, color_info = color_info_list, nr_page = nr_page, max_page = max_page)
 
 
 ###############__________________SETTING_____________________###############

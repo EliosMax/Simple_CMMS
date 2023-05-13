@@ -23,7 +23,13 @@
 
       <div class="mb-3">
         <label class="form-label">Maszyna</label>
-        <input type="text" name="maszyna" class="form-control" value="{{row['maszyna'] }}" required>
+        <select class="form-select" name="maszyna" required>
+          <option value="{{row['maszyna'] }}" selected >{{row['maszyna'] }}</option>
+          {% for row in machineName %}
+          <option value="{{row['MachineName']}}">{{row['MachineName']}}
+          </option>
+          {% endfor %}
+        </select>
       </div>
     </div>
 
@@ -46,11 +52,11 @@
       <div class="col">
         <br>
         <div class="form-check form-check-inline">
-          <input class="form-check-input" type="checkbox" value="{{ row['krytyczne'] }}" name="krytyczne" {%if row['krytyczne']%} checked {%endif%}>
+          <input class="form-check-input" type="checkbox" name="krytyczne" value="1" {%if row['krytyczne']%} checked {%endif%}>
           <label class="form-check-label"> Krytyczne </label>
         </div>
         <div class="form-check form-check-inline">
-          <input class="form-check-input" type="checkbox" value="{{ row['rp'] }}" name="rp" {%if row['krytyczne']%} checked {%endif%}>
+          <input class="form-check-input" type="checkbox" name="rp" value="1" {%if row['rp']%} checked {%endif%}>
           <label class="form-check-label"> Podlega regeneracji </label>
         </div>
       </div>
@@ -82,12 +88,6 @@
     </div>
     <div class="row align-items-start">
       <div class="col-md-6">
-        <div class="mb-3">
-          <label class="form-label">Opis</label>
-          <textarea class="form-control" name="opis" id="opis" rows="3"
-            maxlength="200">{{ row['opis'] }}</textarea>
-          <div id="count_opis" class="form-text"></div>
-        </div>
 
         <div class="row">
           <div class="col">

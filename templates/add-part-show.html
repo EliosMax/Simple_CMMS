@@ -33,7 +33,13 @@
 
       <div class="mb-3">
         <label class="form-label">Maszyna</label>
-        <input type="text" name="maszyna" class="form-control" required>
+        <select class="form-select" name="maszyna" required>
+        <option value="">Wybierz ...</option>
+          {% for row in machineName %}
+          <option value="{{row['MachineName']}}">{{row['MachineName']}}
+          </option>
+          {% endfor %}
+        </select>
       </div>
     </div>
 
@@ -90,12 +96,6 @@
 
     <div class="row d-flex justify-content-center">
       <div class="col-auto">
-        <div class="mb-3">
-          <label class="form-label">Opis</label>
-          <textarea class="form-control" name="opis_show" id="opis_show" rows="3"
-            maxlength="200"></textarea>
-          <div id="count_opis_show" class="form-text"></div>
-        </div>
 
         <div class="row">
           <div class="col-auto">
