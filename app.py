@@ -287,7 +287,7 @@ def failures():
    rows_all = sql_select(query_select)
    
    # Pobiera wszystkie nazwy mechanikó w celu możliwości przypisania przez lidera zgłoszenia.
-   query_select = f"SELECT login FROM users"
+   query_select = f"SELECT name FROM users"
    row_mechanic = sql_select(query_select)
    
    # Pobiera wszystkie wpisy lini
