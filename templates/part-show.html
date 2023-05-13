@@ -101,7 +101,7 @@
         <div class="row">
           <div class="col-auto">
             <label class="form-label">Sklep</label>
-            <input type="text" name="shop" class="form-control" placeholder="https:// ..." value="{{ row['shop'] }}">
+            <input type="text" name="sklep" class="form-control" placeholder="https:// ..." {%if row['sklep'] != None %} value="{{ row['sklep'] }}" {%else%} value="" {%endif%}>
           </div>
 
           <div class="col-auto was-validated">
@@ -130,10 +130,11 @@
 
           <button type="submit" class="btn btn-primary" name="action" value="save">Zapisz</button>
 
-
+          {%if row['sklep']%}
+            <a href="{{row['sklep']}}"  type="submit" class="btn btn-primary" target="_blank">Zamów</a>
+          {%endif%}
           {%if current_user.rank >= 3 %}
-          <button type="button" class="btn btn-primary" name="#{{row['id']}}" value="#{{row['id']}}">Zamów</button>
-          <button type="submit" class="btn btn-danger" name="action" value="delete">Usuń</button>
+            <button type="submit" class="btn btn-danger" name="action" value="delete">Usuń</button>
           {%endif%}
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
         {# <button type="button" class="btn btn-primary">Zapisz</button> #}

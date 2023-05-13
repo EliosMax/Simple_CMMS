@@ -382,19 +382,17 @@ def warehouse_page():
          row['krytyczne'] = 0
          
       row['cena'] = request.form['cena']
-      # row['opis'] = request.form['opis'] # brak w bazie danych! Nie dodano do INSERT
-      # row['shop'] = request.form['shop'] # brak w bazie danych! Nie dodano do INSERT
-
+      row['sklep'] = request.form['sklep']
       # Zapisanie zmian w trakcie edycji.
       if request.form['action'] == 'save':
          row['update_id'] = request.form['update_id']
-         query_update = f"UPDATE warehouse SET nazwa='{row['nazwa']}', typ='{row['typ']}', stan_min='{row['stan_min']}', ilosc_zam='{row['ilosc_zam']}', nowe='{row['nowe']}', do_reg='{row['do_reg']}', regen='{row['regen']}', zlom='{row['zlom']}', rp='{row['rp']}', maszyna='{row['maszyna']}', lokalizacja='{row['lokalizacja']}', krytyczne='{row['krytyczne']}', cena='{row['cena']}' WHERE id='{row['update_id']}'"
+         query_update = f"UPDATE warehouse SET nazwa='{row['nazwa']}', typ='{row['typ']}', stan_min='{row['stan_min']}', ilosc_zam='{row['ilosc_zam']}', nowe='{row['nowe']}', do_reg='{row['do_reg']}', regen='{row['regen']}', zlom='{row['zlom']}', rp='{row['rp']}', maszyna='{row['maszyna']}', lokalizacja='{row['lokalizacja']}', krytyczne='{row['krytyczne']}', cena='{row['cena']}', sklep='{row['sklep']}' WHERE id='{row['update_id']}'"
          sql_update(query_update)
          return redirect('/management-warehouse')
       
       # Dodanie część do bazy danych.
       if request.form['action'] == 'add-part':
-         query_select = f"INSERT INTO warehouse (nazwa, typ, stan_min, ilosc_zam, nowe, do_reg, regen, zlom, rp, maszyna, lokalizacja, krytyczne, cena) VALUES('{row['nazwa']}', '{row['typ']}', '{row['stan_min']}', '{row['ilosc_zam']}', '{row['nowe']}', '{row['do_reg']}', '{row['regen']}', '{row['zlom']}', '{row['rp']}', '{row['maszyna']}', '{row['lokalizacja']}', '{row['krytyczne']}', '{row['cena']}')"
+         query_select = f"INSERT INTO warehouse (nazwa, typ, stan_min, ilosc_zam, nowe, do_reg, regen, zlom, rp, maszyna, lokalizacja, krytyczne, cena, sklep) VALUES('{row['nazwa']}', '{row['typ']}', '{row['stan_min']}', '{row['ilosc_zam']}', '{row['nowe']}', '{row['do_reg']}', '{row['regen']}', '{row['zlom']}', '{row['rp']}', '{row['maszyna']}', '{row['lokalizacja']}', '{row['krytyczne']}', '{row['cena']}', '{row['sklep']}')"
          sql_insert(query_select)
          return redirect('/management-warehouse')
       

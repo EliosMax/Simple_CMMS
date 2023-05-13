@@ -56,7 +56,9 @@
       <td class="text-center">
       
       {# <----- ____________________Modal____________________ #}
-      <button type="button" class="btn btn-primary" name="#{{row['id']}}" value="#{{row['id']}}">Zamów</button>
+        {%if row['sklep']%}
+          <a href="{{row['sklep']}}"  type="submit" class="btn btn-primary" target="_blank">Zamów</a>
+        {%endif%}
       {# <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#{{row['id']}}">Edytuj</button> #}
       <a href="?id={{row['id']}}" type="submit" class="btn btn-primary">Edytuj</a>
         {# <----- ____________________Modal____________________ #}

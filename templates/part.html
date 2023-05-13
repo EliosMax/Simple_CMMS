@@ -92,7 +92,7 @@
         <div class="row">
           <div class="col">
             <label class="form-label">Sklep</label>
-            <input type="text" name="shop" class="form-control" placeholder="https:// ..." value="{{ row['shop'] }}">
+            <input type="text" name="sklep" class="form-control" placeholder="https:// ..." value="{{ row['sklep'] }}">
           </div>
 
           <div class="col was-validated">
@@ -111,15 +111,16 @@
         </div> # TODO Create code for uplaud file #}
         <br>
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-          {# {%if row['shop'] %}<a href="{{ row['shop'] }}" type="submit" class="btn btn-primary" formnovalidate>Złóż
-          zamówieni</a>{%endif%} #}
+
           {%if current_user.rank >= 2 %}
           <button type="submit" class="btn btn-primary" name="action" value="save">Zapisz</button>
           {%endif%}
-          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#stockout-show">Braki magazynowe</button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#stockout-show">Braki magazynowe</button>
+          {%if row['sklep']%}
+            <a href="{{row['sklep']}}"  type="submit" class="btn btn-primary" target="_blank">Zamów</a>
+          {%endif%}
           {%if current_user.rank >= 3 %}
-          <button type="button" class="btn btn-primary" name="#{{row['id']}}" value="#{{row['id']}}">Zamów</button>
-          <button type="submit" class="btn btn-danger" name="action" value="delete">Usuń</button>
+            <button type="submit" class="btn btn-danger" name="action" value="delete">Usuń</button>
           {%endif%}
           <a href="/management-warehouse" type="submit" class="btn btn-secondary" formnovalidate>Ukryj</a>
         </div>
