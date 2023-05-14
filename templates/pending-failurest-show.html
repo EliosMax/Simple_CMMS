@@ -32,7 +32,7 @@
    <tbody id="myTable">
     {# Użyto całęj bay danych rows_all #}
     {% for row in rows_all %}
-      {% if not row['czas_stop'] %}
+      {% if not row['status'] %}
         <tr {{color_info[row['typ']]}}>
           <th scope="row">{{row['id']}}</th>
           <th scope="row">{{row['linia']}}</th>
@@ -42,12 +42,7 @@
           <td>{{row['requestor']}}</td>
           <td>{{row['czas_start']}}</td>
           <td class="text-center">
-            {% if row['czas_stop'] %}
-            
-            <a href="?id={{row['id']}}" type="submit" class="btn btn-primary">Edytuj</a>
-            {% else %}
-            <a href="?id={{row['id']}}" type="submit" class="btn btn-danger ">Uzupełnij</a>
-            {% endif%}
+          <a href="?id={{row['id']}}" type="submit" class="btn btn-danger">W realizacji</a>
           </td>
           </tr>
         {% endif %}

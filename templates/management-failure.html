@@ -52,10 +52,10 @@
           <td>{{row['requestor']}}</td>
           <td>{{row['czas_start']}}</td>
           <td class="text-center">
-              {% if row['czas_stop'] %}
+              {% if row['status'] %}
               <a href="?id={{row['id']}}" type="submit" class="btn btn-primary">Edytuj</a>
               {% else %}
-              <a href="?id={{row['id']}}" type="submit" class="btn btn-danger">Uzupełnij</a>
+              <a href="?id={{row['id']}}" type="submit" class="btn btn-danger">W realizacji</a>
               {% endif%}
           </td>
           </tr>

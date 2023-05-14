@@ -68,8 +68,9 @@
       </select>
       <label for="disabledTextInput" class="form-label">Status zgłoszeznia</label>
       <select class="form-select" name="status" id="status" >
+        <option value="0" {%if row['status']==2 %} selected {%endif%}>W realizacji</option>
         <option value="1" {%if row['status']==1 %} selected {%endif%}>Zrealizowano</option>
-        <option value="2" {%if row['status']==2 %} selected {%endif%}>W realizacji</option>
+
       </select>
 
     </div>
