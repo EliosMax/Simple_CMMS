@@ -1,0 +1,41 @@
+[33mcommit 818145979c19c4a4e31dbe74c0b2658960b2941a[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: Mateusz Wyskiel <godfrey2002@gmail.com>
+Date:   Sat May 13 18:39:43 2023 +0200
+
+    Change the query from the 'login' to 'name'
+
+[33mcommit a2ba48d1c6bbb556352af06c392c028baef2cb5b[m
+Author: Mateusz Wyskiel <godfrey2002@gmail.com>
+Date:   Sat May 13 18:03:31 2023 +0200
+
+    Repair ordering function
+
+[33mcommit 984686296e6739b8f8fd1359247807761f62060f[m
+Author: Mateusz Wyskiel <godfrey2002@gmail.com>
+Date:   Sat May 13 16:30:13 2023 +0200
+
+    Add machines and lines to the application form
+
+[33mcommit 9d90e25c33e9356740ee5af76871924a16b7748f[m
+Author: Mateusz Wyskiel <godfrey2002@gmail.com>
+Date:   Fri May 12 20:55:41 2023 +0200
+
+    Add a cascading selection menu
+
+[33mcommit 4212e5df661e16b0b65cdae364a94ab65ef79478[m
+Author: Mateusz Wyskiel <godfrey2002@gmail.com>
+Date:   Fri May 12 01:03:03 2023 +0200
+
+    Added assigning a responsible person to the notification
+
+[33mcommit 3c010c7e62e219e4d31948d2d34e87e667953da4[m
+Author: Mateusz Wyskiel <godfrey2002@gmail.com>
+Date:   Thu May 11 04:37:55 2023 +0200
+
+    Add change password and password hashing
+
+[33mcommit 67d115b20603576a88bd8367a6fd01224c4376c9[m
+Author: Mateusz Wyskiel <godfrey2002@gmail.com>
+Date:   Thu May 11 02:48:41 2023 +0200
+
+    first commit
